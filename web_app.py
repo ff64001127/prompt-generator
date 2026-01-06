@@ -25,16 +25,25 @@ st.title("🎨 自動化提示詞填充器 (Web版)")
 # === 步驟 1: 輸入與偵測 ===
 st.header("步驟 1: 輸入提示詞")
 
-# 定義一個 callback 函數來處理歷史回填
-def load_history_to_prompt():
-    # 這裡可以實作將歷史填回輸入框，但在 Web 模式下，
-    # 通常是將結果顯示在結果區，讓使用者複製，比較符合網頁操作邏輯。
-    pass
+# 設定預設模板檔案名稱
+TEMPLATE_FILE = "template.txt"
+# 設定萬一檔案讀不到時的備用文字
+fallback_text = "A frame-filling composition.\nAppearance: Wearing [上衣顏色] [上衣類型]"
 
+# 嘗試讀取 template.txt
+default_value = fallback_text
+if os.path.exists(TEMPLATE_FILE):
+    try:
+        with open(TEMPLATE_FILE, "r", encoding="utf-8") as f:
+            default_value = f.read()
+    except Exception as e:
+        st.warning(f"無法讀取預設模板檔案，將使用備用文字。錯誤: {e}")
+
+# 顯示文字輸入框 (將 value 設定為讀取到的內容)
 prompt_text = st.text_area(
     "輸入提示詞模板 (使用 [ ] 包裹變數)", 
-    value="A frame-filling composition.\nAppearance: Wearing [上衣顏色] [上衣類型]",
-    height=150,
+    value=default_value,
+    height=200, # 高度可以稍微加大
     key="prompt_input"
 )
 
@@ -214,3 +223,4 @@ with col2:
                 # Web 限制：很難直接逆向寫回上方的 input，通常是用顯示的方式讓使用者複製
 
                 break
+
