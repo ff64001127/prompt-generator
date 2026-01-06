@@ -3,6 +3,7 @@ import pandas as pd
 import re
 import random
 import io
+import os
 
 # --- 頁面設定 ---
 st.set_page_config(page_title="自動化提示詞填充器 (Web版)", layout="wide")
@@ -223,4 +224,5 @@ with col2:
                 # Web 限制：很難直接逆向寫回上方的 input，通常是用顯示的方式讓使用者複製
 
                 break
+
 
