@@ -7,7 +7,7 @@ Wearing [上衣顏色] [上衣花紋] [上衣類型]
 and [下裝顏色]  [下裝花紋] [下裝種類] miniskirt.
 [飾品配件]
 Fingernails painted in [指甲顏色]  
-short legs,[高跟鞋顏色] [高跟鞋種類]. 
+short legs,wear [鞋種類]. 
 Poses & Expressions:    
 [動作] 
 Body and face turned completely front-facing to camera.  
