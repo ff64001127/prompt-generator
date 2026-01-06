@@ -49,45 +49,70 @@ if st.button("🔍 偵測 [ ] 標籤"):
         st.error("未偵測到任何 [ ] 標籤")
 
 # === 步驟 2: CSV 上傳與預覽 ===
-st.header("步驟 2: 上傳 CSV")
+st.header("步驟 2: 資料來源")
 
-uploaded_file = st.file_uploader("選擇 CSV 檔案", type=['csv'])
+# 設定預設檔案名稱 (請改成你上傳到 GitHub 的檔名)
+DEFAULT_CSV_FILE = "data.csv" 
 
-if uploaded_file is not None:
+# 讓使用者選擇：使用預設檔案 或是 上傳新檔案
+data_source = st.radio("選擇 CSV 來源:", ["使用 GitHub 預設檔案", "上傳新檔案"], horizontal=True)
+
+df = None # 初始化 df
+
+if data_source == "使用 GitHub 預設檔案":
     try:
-        # 嘗試讀取 (處理編碼)
-        try:
-            df = pd.read_csv(uploaded_file, encoding='utf-8')
-        except UnicodeDecodeError:
-            uploaded_file.seek(0) # 重置指標
-            df = pd.read_csv(uploaded_file, encoding='cp950')
-        
-        # 處理空值
-        df = df.replace(r'^\s*$', pd.NA, regex=True)
-        st.session_state.df_raw = df
-        
-        # 顯示預覽 (只顯示前 5 行)
-        st.dataframe(df.head(), height=150, use_container_width=True)
-        
-        # 統計欄位
-        if st.session_state.detected_tags:
-            missing = [t for t in st.session_state.detected_tags if t not in df.columns]
-            if missing:
-                st.error(f"❌ CSV 缺少欄位: {missing}")
-                st.session_state.column_pools = {}
-            else:
-                pools = {}
-                stats_msg = []
-                for tag in st.session_state.detected_tags:
-                    valid_items = df[tag].dropna().tolist()
-                    valid_items = [str(x).strip() for x in valid_items if str(x).strip() != ""]
-                    pools[tag] = valid_items
-                    stats_msg.append(f"**[{tag}]**: {len(valid_items)}個")
-                
-                st.session_state.column_pools = pools
-                st.info(" | ".join(stats_msg))
+        # 直接讀取同目錄下的檔案
+        # 注意：如果你的 CSV 有中文，可能需要 encoding='utf-8' 或 'cp950'
+        # 建議 GitHub 上的檔案統一轉存為 UTF-8 格式最保險
+        df = pd.read_csv(DEFAULT_CSV_FILE, encoding='utf-8')
+        st.success(f"✅ 已自動載入預設檔案: {DEFAULT_CSV_FILE}")
+    except FileNotFoundError:
+        st.error(f"❌ 找不到預設檔案: {DEFAULT_CSV_FILE}。請確認檔案有上傳到 GitHub 且檔名正確。")
     except Exception as e:
-        st.error(f"讀取失敗: {e}")
+        st.error(f"讀取錯誤: {e}")
+
+elif data_source == "上傳新檔案":
+    uploaded_file = st.file_uploader("拖曳或選擇 CSV 檔案", type=['csv'])
+    if uploaded_file is not None:
+        try:
+            try:
+                df = pd.read_csv(uploaded_file, encoding='utf-8')
+            except UnicodeDecodeError:
+                uploaded_file.seek(0)
+                df = pd.read_csv(uploaded_file, encoding='cp950')
+            st.success(f"✅ 已載入上傳的檔案: {uploaded_file.name}")
+        except Exception as e:
+            st.error(f"讀取失敗: {e}")
+
+# --- 共用的資料處理與顯示邏輯 ---
+if df is not None:
+    # 處理空值
+    df = df.replace(r'^\s*$', pd.NA, regex=True)
+    st.session_state.df_raw = df
+    
+    # 顯示預覽 (可展開)
+    with st.expander("點擊檢視 CSV 內容預覽", expanded=True):
+        st.dataframe(df.head(10), use_container_width=True)
+    
+    # 統計欄位 (這段邏輯跟原本一樣，只是移到下面共用)
+    if st.session_state.detected_tags:
+        missing = [t for t in st.session_state.detected_tags if t not in df.columns]
+        if missing:
+            st.error(f"❌ CSV 缺少對應欄位: {missing}")
+            st.session_state.column_pools = {}
+        else:
+            pools = {}
+            stats_msg = []
+            for tag in st.session_state.detected_tags:
+                valid_items = df[tag].dropna().tolist()
+                valid_items = [str(x).strip() for x in valid_items if str(x).strip() != ""]
+                pools[tag] = valid_items
+                stats_msg.append(f"**[{tag}]**: {len(valid_items)}個")
+            
+            st.session_state.column_pools = pools
+            st.info(" | ".join(stats_msg))
+    else:
+        st.warning("⚠️ 請先在步驟 1 偵測標籤，系統才能核對 CSV 欄位。")
 
 # === 步驟 3: 生成與結果 ===
 st.header("步驟 3: 生成結果")
@@ -187,4 +212,5 @@ with col2:
             if item['summary'] == selected_option:
                 st.info(f"回顧內容:\n{item['full_text']}")
                 # Web 限制：很難直接逆向寫回上方的 input，通常是用顯示的方式讓使用者複製
+
                 break
