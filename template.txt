@@ -3,7 +3,7 @@
 A masterpiece, highly detailed, sharp focus frame-filling composition portrait. 
 The character occupies most of the frame.
 Candid shot,Unguarded moment,Unposed.
-a [人種] [年齡]
+a [人種] [年齡],[胸]
 [髮色],[髮型],[瀏海].
 Appearance & Accessories:    
 Wearing [上衣顏色] [上衣花紋] [上衣類型]  
@@ -21,3 +21,4 @@ Soft diffused frontal light.Eye-level shot. Photorealistic, intricate details, d
 Scene: [場景].
 No text, no watermark, no signature, no logo.
 Negative Prompt: Cross-legged, lotus position, folded legs.
+
