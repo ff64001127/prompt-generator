@@ -6,7 +6,7 @@ a [人種] [年齡]
 [髮色],[髮型],[瀏海].
 Appearance & Accessories:    
 Wearing [上衣顏色] [上衣花紋] [上衣類型]  
-and [下裝顏色]  [下裝花紋] [下裝種類] miniskirt and [下下裝] bikini bottoms.
+and [下裝顏色]  [下裝花紋] [下裝種類] miniskirt and [下下裝顏色] bikini bottoms.
 [飾品配件]
 Fingernails painted in [指甲顏色]  
 long legs,wear [鞋種類]. 
@@ -19,3 +19,4 @@ Photography Style:
 Soft diffused frontal light.Eye-level shot. Photorealistic, intricate details, detailed skin texture.
 Scene: [場景].
 No text, no watermark, no signature, no logo. Avoid blurry, grainy, noise, low quality, deformed body, bad anatomy, ugly face, bad hands, missing fingers, cropped image, out of frame.no cartoon.
+
