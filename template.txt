@@ -2,12 +2,14 @@
 1:1
 A masterpiece, highly detailed, sharp focus frame-filling composition portrait. 
 The character occupies most of the frame.
+a [人種] [年齡]
+[髮色],[髮型],[瀏海].
 Appearance & Accessories:    
 Wearing [上衣顏色] [上衣花紋] [上衣類型]  
-and [下裝顏色]  [下裝花紋] [下裝種類] miniskirt.
+and [下裝顏色]  [下裝花紋] [下裝種類] miniskirt and [下下裝] bikini bottoms.
 [飾品配件]
 Fingernails painted in [指甲顏色]  
-short legs,[高跟鞋顏色] [高跟鞋種類]. 
+long legs,wear [鞋種類]. 
 Poses & Expressions:    
 [動作] 
 Body and face turned completely front-facing to camera.  
